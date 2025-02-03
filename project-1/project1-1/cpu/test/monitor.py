@@ -10,6 +10,8 @@ import sched, time
 from libvirt import libvirtError
 
 VM_PREFIX="aos"
+ITERATION_THRESHOLD = 25
+
 def print_line(x, iterations):
     print("")
     for i in range(x):
@@ -25,6 +27,7 @@ def which_usage(newinfo, oldinfo):
 
 def run(sc,numpcpu,vmlist,vmobjlist,vminfolist,machineParseable, iterations, test,):
     if iterations == 5:
+        print("starting {0}...".format(test))
         os.system('python3 {0}'.format(test))
         
     iterations += 1
@@ -52,7 +55,7 @@ def run(sc,numpcpu,vmlist,vmobjlist,vminfolist,machineParseable, iterations, tes
         print_line(50, iterations) 
         for i in range(numpcpu):
             print('{} - usage: {} | mapping {}'.format(i,cpulist[i]['usage'] * 100,cpulist[i]['mapping']))
-    if iterations == 25:
+    if iterations == ITERATION_THRESHOLD:
         return
     s.enter(1, 1, run, (s,numpcpu,vmlist,vmobjlist,vminfolist,machineParseable,iterations, test))
 
@@ -60,7 +63,7 @@ def run(sc,numpcpu,vmlist,vmobjlist,vminfolist,machineParseable, iterations, tes
 def run_dynamic(sc, manager, vminfoDict, machineParseable, iterations, test):
 
     if iterations == 5:
-    
+        print("starting {0}...".format(test))
         os.system('python3 {0}'.format(test))
     
     iterations += 1
@@ -103,7 +106,7 @@ def run_dynamic(sc, manager, vminfoDict, machineParseable, iterations, test):
         for i in range(numpcpu):
             print('{} - usage: {} | mapping {}'.format(i,cpulist[i]['usage'] * 100,cpulist[i]['mapping']))
 
-    if iterations == 25:
+    if iterations == ITERATION_THRESHOLD:
         return
     s.enter(1, 1, run_dynamic, (s,manager, vminfoDict, machineParseable,iterations, test))
 
@@ -111,13 +114,15 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-m","--machine",action="store_true",help="outputs a machine parseable format")
+    parser.add_argument("-i", "--iterations", type=int, default=25, help="number of iterations to run")
     parser.add_argument("-d","--dynamic",action="store_true",help="enables dynamic observation of VM addition/deletion")
     parser.add_argument("-t","--test",type=str,help="test case file")
+    
     args = parser.parse_args()
     machineParseable = args.machine
     dynamic = args.dynamic
     test = args.test
-
+    ITERATION_THRESHOLD = args.iterations
     
     s = sched.scheduler(time.time, time.sleep)
     manager=VMManager()

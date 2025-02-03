@@ -10,5 +10,6 @@ if __name__ == '__main__':
     manager = VMManager() 
     vms=manager.getRunningVMNames(filterPrefix=VM_PREFIX)
     for vmname in vms:
+        print(f"shutdown {vmname}...")
         manager.shutdownVM(vmname)
-    time.sleep(5)
+    time.sleep(1)

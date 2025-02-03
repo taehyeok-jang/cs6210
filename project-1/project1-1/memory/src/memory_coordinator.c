@@ -64,5 +64,5 @@ COMPLETE THE IMPLEMENTATION
 */
 void MemoryScheduler(virConnectPtr conn, int interval)
 {
-
+	printf("run MemoryScheduler (do nothing)...\n");
 }

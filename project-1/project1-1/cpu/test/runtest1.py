@@ -12,6 +12,10 @@ if __name__ == '__main__':
     manager = VMManager()
     vms = manager.getRunningVMNames(VM_PREFIX)
     rounds = manager.getPhysicalCpus()
+    with open("runtest1.txt", "a") as log_file:
+        log_file.write(f"vms: {vms}\n")
+        log_file.write(f"pcpus: {rounds}\n")
+
     i=0
     for vmname in vms:
         manager.pinVCpuToPCpu(vmname,0,i)
