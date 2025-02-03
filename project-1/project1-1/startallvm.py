@@ -10,5 +10,6 @@ if __name__ == '__main__':
     manager = VMManager()
     vms = manager.getFilteredVms(VM_PREFIX)
     for vmname in vms:
+        print(f"strating {vmname}...")
         manager.startVM(vmname)
-    time.sleep(5)
+    time.sleep(1)

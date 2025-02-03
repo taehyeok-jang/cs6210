@@ -3,7 +3,9 @@
 
 int main(int argc, char **argv) {
     int i = 0;
-    int count = 10000;
+    // int count = 10000;
+    int count = 2147483647;
+
     if (argc == 2) {
         count = atoi(argv[1]);
     }
