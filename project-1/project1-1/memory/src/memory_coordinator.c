@@ -25,7 +25,7 @@ void signal_callback_handler()
 /*
 DO NOT CHANGE THE FOLLOWING FUNCTION
 */
-int main(int argc, char *argv[])
+int main(int argc, char *argv[]) 
 {
 	virConnectPtr conn;
 
