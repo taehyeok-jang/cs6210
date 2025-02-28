@@ -1,6 +1,8 @@
 MPICC = mpicc.mpich
-CFLAGS = -g -Wall -std=gnu99 -I.
-LDLIBS = -lm
+# CFLAGS = -g -Wall -std=gnu99 -I.
+# LDLIBS = -lm
+CFLAGS = -g -Wall -std=gnu99 -I. -fopenmp  # Added -fopenmp here
+LDLIBS = -lm -fopenmp                      # Added -fopenmp here
 
 MP_SRC1 = gtmpi1.c
 MP_SRC2 = gtmpi2.c
@@ -11,7 +13,7 @@ mpi1: gtmpi1.c harness.o
 	$(MPICC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
 
 mpi2: gtmpi2.c harness.o
-	$(MPICC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
+	$(MPICC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS) 
 
 %.o: %.c
 	$(MPICC) -c $(CFLAGS) $< -o $@

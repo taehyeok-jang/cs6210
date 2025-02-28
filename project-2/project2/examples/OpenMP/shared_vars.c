@@ -19,11 +19,11 @@ int main(int argc, char **argv)
 
     printf("thread %d: before barrier value of pub = %d\n", thread_num, pub);
 
-#pragma omp barrier
+#pragma omp barrier // wait for all threads to reach this line
 
     printf("thread %d: final value of pub = %d\n", thread_num, pub);
 
-#pragma omp barrier
+#pragma omp barrier // wait for all threads to reach this line
 
     printf("thread %d: final value of priv = %d\n", thread_num, priv);
   }

@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    int num_threads = 4;
+    int num_threads = 1;
     if (argc > 1) {
         num_threads = atoi(argv[1]);
     }
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     gtmp_init(num_threads);
 
     // Performance + Sanity Test
-    int iterations = 2;
+    int iterations = 100;
     double start_time, end_time;
     int failed = 0; 
 
@@ -44,14 +44,19 @@ int main(int argc, char *argv[]) {
         int local_flag = 0;
 
         for (int i = 0; i < iterations; i++) {
+
+            if (rank == 0) {
+                printf("at iteration %d\n", i);
+              }
+
             local_flag = 0;
             #pragma omp atomic
             local_flag += 1;
 
-            printf("Before barrier: Rank %d, Thread %d, local_flag = %d\n", rank, tid, local_flag);
+            // printf("Before barrier: Rank %d, Thread %d, local_flag = %d\n", rank, tid, local_flag);
             combined_barrier();
 
-            printf("After barrier: Rank %d, Thread %d, local_flag = %d\n", rank, tid, local_flag);
+            // printf("After barrier: Rank %d, Thread %d, local_flag = %d\n", rank, tid, local_flag);
 
             if (local_flag != 1) {
                 #pragma omp critical
@@ -83,7 +88,7 @@ int main(int argc, char *argv[]) {
         printf("Combined Barrier Performance:\n");
         printf("Processes: %d, Threads per process: %d, Iterations: %d\n", size, num_threads, iterations);
         printf("Total time: %.6f seconds\n", total_time);
-        printf("Average time per barrier: %.6f microseconds\n", (total_time * 1e6) / iterations);
+        printf("Average time per barrier: %.6f milliseconds\n", (total_time * 1e3) / iterations);
     }
 
     gtmp_finalize();

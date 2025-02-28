@@ -39,4 +39,3 @@ int main(int argc, char **argv)
   printf("Serial thread: thread_num = %d; x = %d\n", thread_num, x);
   return 0;
 }
-

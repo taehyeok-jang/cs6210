@@ -98,6 +98,10 @@ void gtmpi_init(int num_processes) {
 
 void gtmpi_barrier() {
 
+    if (num_procs == 1) {
+        return;
+    }
+
     int _round = 1;
     int loop_exit = 0;
     MPI_Status status; 

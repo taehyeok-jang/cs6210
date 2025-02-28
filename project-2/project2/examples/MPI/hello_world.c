@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include "mpi.h"
 
+/**
+ * - How to run
+ * > mpirun -np 4 ./hello_world
+ */
+
 int main(int argc, char **argv)
 {
   int my_id, num_processes;
