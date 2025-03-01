@@ -7,6 +7,8 @@
 #include "combined_barrier.h"
 
 int main(int argc, char *argv[]) {
+    printf("main()\n");
+
     int rank, size;
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -18,27 +20,32 @@ int main(int argc, char *argv[]) {
     }
     omp_set_num_threads(num_threads);
 
-    gtmpi_init(size);
-    gtmp_init(num_threads);
+    printf("init...\n");
+    combined_init(size, num_threads);
 
     // Performance + Sanity Test
     int iterations = 100;
     double start_time, end_time;
     int failed = 0; 
 
+    int sense = 0;
+
     // warm-up 
-    #pragma omp parallel
+    printf("warm-up...\n");
+    #pragma omp parallel shared(sense)
     {
         for (int i = 0; i < 10; i++) {
-            combined_barrier();
+            combined_barrier(&sense);
         }
     }
 
     // set timer after synchronizing all processes
     MPI_Barrier(MPI_COMM_WORLD);
+    
+    printf("set start_time\n");
     start_time = omp_get_wtime();
 
-    #pragma omp parallel
+    #pragma omp parallel shared(sense)
     {
         int tid = omp_get_thread_num();
         int local_flag = 0;
@@ -54,7 +61,7 @@ int main(int argc, char *argv[]) {
             local_flag += 1;
 
             // printf("Before barrier: Rank %d, Thread %d, local_flag = %d\n", rank, tid, local_flag);
-            combined_barrier();
+            combined_barrier(&sense);
 
             // printf("After barrier: Rank %d, Thread %d, local_flag = %d\n", rank, tid, local_flag);
 
@@ -91,8 +98,7 @@ int main(int argc, char *argv[]) {
         printf("Average time per barrier: %.6f milliseconds\n", (total_time * 1e3) / iterations);
     }
 
-    gtmp_finalize();
-    gtmpi_finalize();
+    combined_finalize();
     MPI_Finalize();
     return 0;
 }

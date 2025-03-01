@@ -1,4 +1,5 @@
 MPICC = mpicc.mpich
+# MPICC = mpicc
 
 OMPFLAGS = -fopenmp
 OMPLIBS = -lgomp
