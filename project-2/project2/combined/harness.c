@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     combined_init(size, num_threads);
 
     // Performance + Sanity Test
-    int iterations = 100;
+    int iterations = 1000;
     double start_time, end_time;
     int failed = 0; 
 

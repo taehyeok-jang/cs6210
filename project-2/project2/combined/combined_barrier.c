@@ -3,12 +3,8 @@
 #include "omp_barrier.h"
 #include "mpi_barrier.h"
 #include "combined_barrier.h"
-    
-int sense;
 
 void combined_init(int num_processes, int num_threads) {
-
-    sense = 0;
 
     gtmpi_init(num_processes);
     gtmp_init(num_threads);
