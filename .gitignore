@@ -1,32 +1,46 @@
-# Prerequisites
-*.d
+# === CMake build files ===
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
 
-# Compiled Object files
-*.slo
-*.lo
+# === Build output ===
+bin/
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
 *.a
-*.lib
-
-# Executables
-*.exe
+*.so
 *.out
-*.app
+*.exe
+
+# === gRPC / protobuf generated files ===
+*.pb.cc
+*.pb.h
+*.grpc.pb.cc
+*.grpc.pb.h
+
+# === Editor / IDE ===
+.vscode/
+*.swp
+*.swo
+
+# === External / third-party build artifacts ===
+external/CMakeFiles/
+external/Makefile
+external/cmake_install.cmake
+external/include/CMakeFiles/
+external/include/Makefile
+external/include/cmake_install.cmake
+
+# === Project-specific ===
+src/libmapreducelib.a
+src/libmr_workerlib.a
+src/libp4protolib.a
+
+# === Test build artifacts ===
+test/CMakeFiles/
+test/Makefile
+test/cmake_install.cmake
+
+# === Python cache (if collect_submission.py used) ===
+__pycache__/
+*.pyc
