@@ -1,3 +1,42 @@
 syntax = "proto3";
 
 package masterworker;
+
+// Service definition for master-worker communication
+service MasterWorker {
+  // Map RPC
+  rpc assignMapTask(MapRequest) returns (WorkerResponse) {}
+  // Reduce RPC  
+  rpc assignReduceTask(ReduceRequest) returns (WorkerResponse) {}
+}
+
+// Message sent from master to worker to request a map task
+message MapRequest {
+  string user_id                    = 1; // User ID for the mapper
+  int32 mapper_id                   = 2; // mapper ID (= shard ID)
+  repeated FilePiece file_pieces    = 3; // Input files for this shard
+  string intermediate_file_dir      = 4; // "/intermediate/<user_id>/<mapper_id>/<random_str>"
+  int32 n_output                    = 5; // Number of output files to generate. (used for partitioning)
+}
+
+// Message sent from master to worker to request a reduce task
+message ReduceRequest {
+  string user_id                              = 1; // User ID for the reducer
+  int32 reducer_id                            = 2; // reducer ID
+  repeated string intermediate_file_dirs      = 3; // "/intermediate/<user_id>/<mapper_id>/<random_str>"; e.g. "/intermediate/<user_id>/mapper_0/abc", "/intermediate/<user_id>/mapper_1/xyz"
+  string output_dir                           = 4; // e.g. "/output"
+}
+
+message FilePiece {
+  string file_path = 1;
+  int32 start_offset = 2;
+  int32 end_offset = 3;
+}
+
+// Response from worker back to master
+message WorkerResponse {
+  bool success                      = 1; // Whether the task completed successfully
+  string output_files               = 2; // Output files generated (e.g. "intermediate/mapper_1_reducer_1.txt,intermediate/mapper_1_reducer_2.txt")
+  string error                      = 3; // Error message if task failed
+}
+

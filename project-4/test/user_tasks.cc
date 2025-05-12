@@ -24,6 +24,21 @@ class UserMapper : public BaseMapper {
 };
 
 
+/**
+ * e.g.
+ * inputs: 
+ * 	key = "hello"
+ * 	values = ["1", "1", "1"]
+ * 
+ * returns:
+ * 	key = "hello"
+ * 	value = "3"
+ * 
+ * 1. convert values to ints
+ * 2. sum the ints (accumulate)
+ * 3. convert the sum to a string
+ * 4. emit the key and value
+ */
 class UserReducer : public BaseReducer {
 
 	public:

@@ -9,6 +9,8 @@
 
 int main(int argc, char **argv) {
 
+    std::cout << "main.cc: starting MapReduce job..." << std::endl;
+
 	char* cwd;
     char buff[PATH_MAX + 1];
     cwd = getcwd( buff, PATH_MAX + 1 );
@@ -17,6 +19,8 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 	const std::string filename = std::string(cwd) + "/config.ini";
+
+    std::cout << "main.cc: with config file: " << filename << std::endl;
 	
 	MapReduce job;
 	return job.run(filename) ? EXIT_SUCCESS : EXIT_FAILURE;

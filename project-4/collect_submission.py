@@ -24,6 +24,9 @@ def createZippedFile(dirName, requiredFiles):
         z.write( "README.md" )
         print('copied README.md')
 
+        z.write("images/mapreduce_image.png")
+        print('copied images/mapreduce_image.png')
+
         onlyfiles = ['src/'+ f for f in listdir('src') ]
 
         for f in onlyfiles:

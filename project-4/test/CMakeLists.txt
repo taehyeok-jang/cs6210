@@ -4,11 +4,11 @@ cmake_minimum_required(VERSION 3.10)
 project(project4)
 
 add_executable(mrdemo main.cc)
-target_link_libraries(mrdemo mapreducelib)
+target_link_libraries(mrdemo mapreducelib p4protolib)
 add_dependencies(mrdemo mapreducelib)
 
 add_executable(mr_worker user_tasks.cc)
-target_link_libraries(mr_worker mr_workerlib)
+target_link_libraries(mr_worker mr_workerlib p4protolib)
 add_dependencies(mr_worker mr_workerlib)
 
 set_target_properties(mrdemo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
